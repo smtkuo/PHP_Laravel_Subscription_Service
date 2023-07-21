@@ -26,7 +26,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('{id}/subscription', [SubscriptionController::class, 'delete']);
     Route::post('{id}/transaction', [TransactionController::class, 'create']);
     Route::get('{id}', [UserController::class, 'get']);
-    Route::resource('subscription-types', SubscriptionTypeController::class);
 });
+
+Route::resource('subscription-types', SubscriptionTypeController::class);
 
 

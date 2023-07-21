@@ -1,5 +1,4 @@
 <?php 
-
 namespace App\Services;
 
 use App\Repositories\SubscriptionRepository;
@@ -13,20 +12,22 @@ class SubscriptionService
         $this->subscriptionRepo = $subscriptionRepo;
     }
 
-    public function create($userId, $renewedAt, $expiredAt)
+    public function create($userId, $subscriptionTypeId, $renewedAt, $expiredAt)
     {
         return $this->subscriptionRepo->create([
             'user_id' => $userId,
+            'subscription_type_id' => $subscriptionTypeId,
             'renewed_at' => $renewedAt,
             'expired_at' => $expiredAt
         ]);
     }
 
-    public function update($subscriptionId, $renewedAt, $expiredAt)
+    public function update($subscriptionId, $subscriptionTypeId, $renewedAt, $expiredAt)
     {
         $subscription = $this->subscriptionRepo->find($subscriptionId);
         if ($subscription) {
             return $this->subscriptionRepo->update($subscription, [
+                'subscription_type_id' => $subscriptionTypeId,
                 'renewed_at' => $renewedAt,
                 'expired_at' => $expiredAt
             ]);

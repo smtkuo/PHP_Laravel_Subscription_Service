@@ -22,6 +22,7 @@ class UpdateSubscriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'subscription_type_id' => 'exists:subscription_types,id',
             'renewed_at' => 'date',
             'expired_at' => 'date|after:renewed_at'
         ];

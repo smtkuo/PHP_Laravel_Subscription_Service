@@ -26,6 +26,7 @@ class UpdateSubscriptionTypeRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|max:255',
             'price' => 'sometimes|required|numeric|min:0',
+            'duration' => 'sometimes|required|integer|min:1', // duration must be at least 1 month
             'details' => 'nullable|string',
         ];
     }

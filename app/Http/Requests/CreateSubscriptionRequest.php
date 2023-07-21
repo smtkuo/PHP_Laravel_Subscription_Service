@@ -22,6 +22,7 @@ class CreateSubscriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'subscription_type_id' => 'required|exists:subscription_types,id',
             'renewed_at' => 'required|date',
             'expired_at' => 'required|date|after:renewed_at'
         ];

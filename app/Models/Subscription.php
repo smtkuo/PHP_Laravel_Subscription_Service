@@ -20,4 +20,10 @@ class Subscription extends Model
     {
         return $this->belongsTo(SubscriptionType::class);
     }
+
+    
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'user_id', 'user_id');
+    }
 }

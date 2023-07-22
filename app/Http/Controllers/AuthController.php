@@ -8,6 +8,8 @@ use App\Services\UserService;
 use App\Services\AuthService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -50,6 +52,10 @@ class AuthController extends Controller
             // Authentication passed
             // Create a token for the user
             $request->session()->regenerate();
+            
+            $user = Auth::user();
+            $user->api_token = Hash::make(Str::random(80));
+            $user->save();
 
             return response()->json([
                 'success' => 1,

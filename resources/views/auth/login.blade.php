@@ -39,8 +39,11 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (!data?.error) {
-                    localStorage.setItem('token', data.token);
+                if (data?.success) {
+                    // Store the access token in local storage
+                    console.log({data})
+                    localStorage.setItem('api_token', data?.data?.api_token);
+
                     // Redirect the user to a new page
                     alert('Welcome')
                     window.location.href = '/dashboard';

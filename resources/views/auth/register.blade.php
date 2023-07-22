@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 
@@ -27,11 +28,14 @@
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             
             fetch("{{ route('api.register') }}", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // Include the CSRF token in the request headers
+                    'X-CSRF-TOKEN': csrfToken
                 },
                 body: JSON.stringify({
                     name: name,

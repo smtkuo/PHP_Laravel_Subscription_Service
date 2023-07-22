@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Carbon\Carbon;
 
 class CreateSubscriptionRequest extends FormRequest
 {
@@ -29,6 +30,22 @@ class CreateSubscriptionRequest extends FormRequest
             'renewed_at' => 'required|date',
             'expired_at' => 'required|date|after:renewed_at'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $renewed_at = $this->input('renewed_at', Carbon::now());
+        $expired_at = $this->input('expired_at', Carbon::now()->addMonth());
+    
+        $this->merge([
+            'renewed_at' => $renewed_at,
+            'expired_at' => $expired_at,
+        ]);
     }
 
     /**

@@ -14,16 +14,21 @@ class SubscriptionTypeSeeder extends Seeder
     public function run(): void
     {
         SubscriptionType::create([
-            'name' => 'Basic',
-            'price' => 9.99,
-            'duration' => 30,
+            'name' => 'Starter',
+            'duration' => 1,
+            'price' => 199,
             'details' => 'Basic subscription details...',
         ]);
-
         SubscriptionType::create([
-            'name' => 'Premium',
-            'price' => 19.99,
-            'duration' => 30,
+            'name' => 'Standard',
+            'duration' => 1,
+            'price' => 699,
+            'details' => 'Basic subscription details...',
+        ]);
+        SubscriptionType::create([
+            'name' => 'Advanced',
+            'duration' => 1,
+            'price' => 999,
             'details' => 'Premium subscription details...',
         ]);
     }

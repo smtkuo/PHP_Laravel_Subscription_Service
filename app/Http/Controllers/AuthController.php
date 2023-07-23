@@ -81,4 +81,25 @@ class AuthController extends Controller
     {
         return view('auth.register');
     }
+
+    public function logout()
+    {
+        // Get the user who is authenticated through the api guard
+        $user = Auth::guard('api')->user();
+
+        if ($user) {
+            // Revoke the user's token
+            $user->tokens()->where('id', $user->id)->delete();
+
+            return response()->json([
+                'success' => 1,
+                'message' => 'You have been logged out',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => 0,
+                'message' => 'Not logged in',
+            ], 400);
+        }
+    }
 }

@@ -2,7 +2,9 @@
 namespace App\Services;
 
 use App\Repositories\SubscriptionRepository;
+use Illuminate\Support\Facades\Auth;
 use Exception;
+use Carbon\Carbon;
 
 class SubscriptionService
 {
@@ -39,21 +41,28 @@ class SubscriptionService
         // Create a transaction
         $this->transactionService->create($userId, $subscription->id, $subscription->subscriptionType->price);
 
-
-        // Load the Transaction relationship
-        $subscription["activeSubscriptionTypeNames"] = $this->subscriptionRepo->activeSubscriptionTypeNames();
-        
-
         // Create the new subscription
         return $subscription;
     }
 
-    public function update($subscriptionId, $subscriptionTypeId, $renewedAt, $expiredAt)
+    public function update($subscriptionId, $renewedAt, $expiredAt, $subscriptionTypeId=0)
     {
         $subscription = $this->subscriptionRepo->find($subscriptionId);
+        $userId = $subscription->user_id;
+
         if ($subscription) {
+            // Create a transaction
+            $this->transactionService->create($userId, $subscription->id, $subscription->subscriptionType->price);
+
+            if($subscriptionTypeId){
+                return $this->subscriptionRepo->update($subscription, [
+                    'subscription_type_id' => $subscriptionTypeId,
+                    'renewed_at' => $renewedAt,
+                    'expired_at' => $expiredAt
+                ]);
+            }
+
             return $this->subscriptionRepo->update($subscription, [
-                'subscription_type_id' => $subscriptionTypeId,
                 'renewed_at' => $renewedAt,
                 'expired_at' => $expiredAt
             ]);
@@ -71,4 +80,26 @@ class SubscriptionService
 
         return null;
     }
+    
+    public function activeSubscriptionTypeNames($userId)
+    {
+        return $this->subscriptionRepo->activeSubscriptionTypeNames($userId)->toArray();
+    }
+
+    /**
+     * Get all subscriptions that need to be renewed.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSubscriptionsDueForRenewal()
+    {
+        // Get the current date
+        $today = Carbon::now();
+
+        // Use the subscription repository to get the subscriptions that need to be renewed
+        $subscriptions = $this->subscriptionRepo->getSubscriptionsToRenew($today);
+
+        return $subscriptions;
+    }
+
 }

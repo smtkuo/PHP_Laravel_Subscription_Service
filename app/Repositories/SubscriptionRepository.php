@@ -35,12 +35,19 @@ class SubscriptionRepository
         return $subscription->delete();
     }
 
-    public function activeSubscriptionTypeNames()
+    public function activeSubscriptionTypeNames($userId)
     {
-        return Subscription::where('expired_at', '>', Carbon::now())
+        return Subscription::where('user_id', $userId)
+            ->where('expired_at', '>', Carbon::now())
             ->with('subscriptionType')
             ->get()
-            ->pluck('subscriptionType.name')
+            ->pluck('subscriptionType.id')
             ->unique();
+    }
+
+    public function getSubscriptionsToRenew($date)
+    {
+        // Find all subscriptions where the 'expired_at' date is today or earlier
+        return Subscription::where('expired_at', '<=', $date)->get();
     }
 }

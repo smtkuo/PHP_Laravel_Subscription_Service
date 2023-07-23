@@ -20,4 +20,5 @@ class Transaction extends Model
     {
         return $this->belongsTo(Subscription::class);
     }
+
 }

@@ -21,4 +21,9 @@ class TransactionService
             'price' => $price
         ]);
     }
+
+    public function getTransactionsByUser($userId)
+    {
+        return $this->transactionRepo->getByUserId($userId);
+    }
 }

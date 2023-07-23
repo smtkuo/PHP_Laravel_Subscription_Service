@@ -25,7 +25,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('api.login');
 
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::post('test', [SubscriptionController::class, 'test'])->name('test');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
     // Protected routes go here
     Route::group(['prefix' => 'user'], function () {
         Route::post('/register', [UserController::class, 'register'])->name('api.user.register');
@@ -34,6 +34,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::delete('{id}/subscription', [SubscriptionController::class, 'delete'])->name('api.user.login');
         Route::post('{id}/transaction', [TransactionController::class, 'create'])->name('api.user.login');
         Route::get('{id}', [UserController::class, 'get'])->name('api.user.login');
+        
     });
 });
 

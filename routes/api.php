@@ -28,16 +28,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
     // Protected routes go here
     Route::group(['prefix' => 'user'], function () {
-        Route::post('/register', [UserController::class, 'register'])->name('api.user.register');
         Route::post('{id}/subscription', [SubscriptionController::class, 'create'])->name('api.user.subscription');
-        Route::put('{userId}/subscription/{subscriptionId}', [SubscriptionController::class, 'update'])->name('api.user.login');
-        Route::delete('{id}/subscription', [SubscriptionController::class, 'delete'])->name('api.user.login');
-        Route::post('{id}/transaction', [TransactionController::class, 'create'])->name('api.user.login');
-        Route::get('{id}', [UserController::class, 'get'])->name('api.user.login');
-        
+        Route::put('{userId}/subscription/{subscriptionId}', [SubscriptionController::class, 'update'])->name('api.user.updateSubscription');
+        Route::delete('{id}/subscription', [SubscriptionController::class, 'delete'])->name('api.user.deleteSubscription');
+        Route::post('{id}/transaction', [TransactionController::class, 'create'])->name('api.user.transaction');
     });
 });
 
+Route::get('/user/{id}', [UserController::class, 'get'])->name('api.user.get');
 Route::resource('subscription-types', SubscriptionTypeController::class);
-
-

@@ -23,6 +23,11 @@ class SubscriptionRepository
     {
         return Subscription::find($id);
     }
+    
+    public function where($array)
+    {
+        return Subscription::where($array)->first();
+    }
 
     public function update(Subscription $subscription, $data)
     {

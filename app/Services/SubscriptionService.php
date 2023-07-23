@@ -45,14 +45,16 @@ class SubscriptionService
         return $subscription;
     }
 
-    public function update($subscriptionId, $renewedAt, $expiredAt, $subscriptionTypeId=0)
+    public function update($userId, $subscriptionId, $renewedAt, $expiredAt, $subscriptionTypeId=0)
     {
-        $subscription = $this->subscriptionRepo->find($subscriptionId);
-        $userId = $subscription->user_id;
+        $subscription = $this->subscriptionRepo->where([
+            ['id', '=', $subscriptionId],
+            ['user_id', '=', $userId]
+        ]);
 
         if ($subscription) {
             // Create a transaction
-            $this->transactionService->create($userId, $subscription->id, $subscription->subscriptionType->price);
+            $this->transactionService->create($subscription->user_id, $subscription->id, $subscription->subscriptionType->price);
 
             if($subscriptionTypeId){
                 return $this->subscriptionRepo->update($subscription, [

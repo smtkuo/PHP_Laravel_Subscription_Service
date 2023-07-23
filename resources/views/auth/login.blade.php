@@ -18,6 +18,11 @@
         <input type="submit" value="Submit">
     </form>
 
+    <div style="margin:10px 0;">
+        <button style="display:block;margin:10px 0;" onclick="window.location.href = '/login';">Login Page</button>
+        <button style="display:block;margin:10px 0;" onclick="window.location.href = '/register';">Register Page</button>
+    </div>
+
     <script>
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();

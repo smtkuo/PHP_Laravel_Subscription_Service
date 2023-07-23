@@ -24,6 +24,14 @@ class UserService
 
     public function get($id)
     {
-        return $this->userRepo->find($id);
+        $user =  $this->userRepo->find($id);
+
+        // Load the subscriptionType relationship
+        $user->load('subscriptions');
+
+        // Load the subscriptionType relationship
+        $user->load('transactions');
+
+        return $user;
     }
 }

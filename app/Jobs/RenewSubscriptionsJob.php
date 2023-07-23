@@ -25,7 +25,7 @@ class RenewSubscriptionsJob implements ShouldQueue
         $subscriptions = $subscriptionService->getSubscriptionsDueForRenewal();
         foreach ($subscriptions as $subscription) {
             // Renew the subscription
-            $subscriptionService->update($subscription->id, Carbon::now(), Carbon::now()->addMonth());
+            $subscriptionService->update($subscription->user_id, $subscription->id, Carbon::now(), Carbon::now()->addMonth());
 
         }
     }

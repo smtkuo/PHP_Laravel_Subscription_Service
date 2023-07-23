@@ -15,13 +15,6 @@ class SubscriptionController extends Controller
     {
         $this->subscriptionService = $subscriptionService;
     }
-
-    public function test()
-    {
-        exit("OK");
-    }
-
-
     public function create($userId, CreateSubscriptionRequest $request)
     {
         try {
@@ -39,15 +32,15 @@ class SubscriptionController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
-
-    public function update($subscriptionId, UpdateSubscriptionRequest $request)
+    public function update($userId, $subscriptionId, UpdateSubscriptionRequest $request)
     {
         try {
             $subscription = $this->subscriptionService->update(
+                $userId,
                 $subscriptionId,
-                $request->input('subscription_type_id'),
                 $request->input('renewed_at'),
-                $request->input('expired_at')
+                $request->input('expired_at'),
+                $request->input('subscription_type_id')
             );
 
             if ($subscription) {
@@ -59,11 +52,10 @@ class SubscriptionController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
-
-    public function delete($subscriptionId)
+    public function delete($id)
     {
         try {
-            $deleted = $this->subscriptionService->delete($subscriptionId);
+            $deleted = $this->subscriptionService->delete($id);
 
             if ($deleted) {
                 return response()->json(['message' => 'Subscription deleted successfully'], 200);

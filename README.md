@@ -240,3 +240,20 @@ Headers:
 Body Parameters (if any):
 
 No body parameters
+
+## Artisan Commands
+
+The application provides several artisan commands for managing subscriptions:
+
+1. `php artisan subscription:create {userId} {subscriptionTypeId}`: This command creates a new subscription for a user.
+2. `php artisan subscription:delete {subscriptionId}`: This command deletes a subscription.
+3. `php artisan subscription:renew {subscriptionId}`: This command renews a subscription.
+4. `php artisan subscription:update {subscriptionId} {renewedAt} {expiredAt} {subscriptionTypeId}`: This command updates a subscription.
+
+Remember to replace the placeholders (`{userId}`, `{subscriptionTypeId}`, `{subscriptionId}`, `{renewedAt}`, `{expiredAt}`) with actual values when running these commands.
+
+## Background Jobs
+
+The application uses background jobs for tasks that can be processed in the background. One such job is the `RenewSubscriptionsJob`.
+
+The `RenewSubscriptionsJob` is responsible for renewing subscriptions that are due for renewal. It does this by using the `SubscriptionService` to get all subscriptions due for renewal and renewing them. The renewal is done by calling the `update` method of the `SubscriptionService`, passing the `user_id`, `id` (subscription ID), current time (`Carbon::now()`), and the time one month from now (`Carbon::now()->addMonth()`) as parameters.

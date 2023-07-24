@@ -1,5 +1,68 @@
 # Laravel Subscription Service
 
+## Başlarken
+
+Bu talimatlar, projeyi yerel makinenizde geliştirme ve test amaçlarıyla çalıştırmanız için bir kopyasını alıp kurmanıza yardımcı olacaktır. Daha fazla detay için lütfen ilerleyin.
+
+### Ön Koşullar
+
+Laravel projenizi yerel makinenizde çalıştırabilmek için aşağıdaki araçlara ihtiyacınız olacak:
+
+```
+PHP >= 8.0
+Composer
+Veritabanı (MySQL, PostgreSQL, SQLite, vb.)
+```
+
+### Yükleme
+
+Aşağıdaki adımlar, yerel makinenizde nasıl çalıştırılacağını açıklar:
+
+1. Projeyi klonlayın:
+
+```bash
+git clone https://github.com/smtkuo/PHP_Laravel_Subscription_Service.git
+```
+
+2. Bağımlılıkları yükleyin:
+
+```bash
+cd PHP_Laravel_Subscription_Service
+composer install
+```
+
+3. `.env` dosyasını oluşturun ve düzenleyin:
+
+```bash
+cp .env.example .env
+```
+
+Bu dosyayı açın ve veritabanı ayarlarınızı yapın.
+
+4. Uygulama anahtarını oluşturun:
+
+```bash
+php artisan key:generate
+```
+
+5. Veritabanını ayarlayın ve göç edin:
+
+```bash
+php artisan migrate
+```
+
+6. Sunucuyu başlatın:
+
+```bash
+php artisan serve
+```
+
+Projeyi tarayıcınızda `http://localhost:8000` adresinde görüntüleyebilirsiniz.
+
+## Testlerin Çalıştırılması
+
+php artisan test
+
 # Postman Collection: 2023_07_23_121717_laravel_collection.json
 
 This repository contains a Postman collection for the API endpoints of the project. The Postman collection file is `2023_07_23_121717_laravel_collection.json.json`.
